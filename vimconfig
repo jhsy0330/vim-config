@@ -1,0 +1,63 @@
+" ===========================
+" ====== basic setting ======
+" ===========================
+set encoding=utf8
+set number
+set relativenumber
+set tabstop=4
+set showcmd 
+" set system clipboard in vim
+"set clipboard=unnamedplus
+"set clipboard=unnamedplus
+syntax on
+set dictionary=/usr/share/dict/words
+
+" ====== basic map setting ===
+
+
+
+" ===========================
+" ====== plugin install =====
+" ===========================
+call plug#begin('~/.vim/plugged')
+" vimwiki
+Plug 'vimwiki/vimwiki'
+Plug 'hdima/python-syntax'
+Plug 'tpope/vim-markdown'
+Plug 'iamcco/markdown-preview.nvim'
+Plug 'scrooloose/nerdtree'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'morhetz/gruvbox'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'scrooloose/syntastic'
+Plug 'aperezdc/vim-template'
+" vim code dark theme
+" Plug 'tomasiser/vim-code-dark'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+call plug#end()
+" ====== markdown setting  =====
+set nofoldenable
+
+" ====== airline setting  =====
+let g:airline_theme='simple'
+
+" ====== syntastic setting  =====
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" ====== templates setting  =====
+let g:templates_directory = '~/.vim/templates'
+
+" ====== color setting  =====
+"colorscheme codedark
+" ====== coc setting =====
+inoremap <expr> <TAB> coc#pum#visible() ? coc#pum#confirm() : "\<TAB>"
+
+
