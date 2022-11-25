@@ -1,41 +1,14 @@
-" ===========================
-" ====== basic setting ======
-" ===========================
-set encoding=utf8
-set number
-set relativenumber
-set tabstop=4
-" setting shift+>
-set smartindent
-set shiftwidth=4
-set showcmd 
-" setting backspace 
-set backspace=indent,eol,start
-"set system clipboard in vim
-"set clipboard=unnamedplus
-"set clipboard=unnamedplus
-syntax on
-set dictionary=/usr/share/dict/words
-let g:mapleader = "<space>"
-
-" ====== basic map setting ===
-nnoremap <silent><c-e> :NERDTree<CR> 
-nnoremap <silent><CR> o<ESC>
-nnoremap > >>
-nnoremap < <<
-
-" ===========================
-" ====== plugin install =====
-" ===========================
+" ----------------------------------------------------------
+" 						+plugin
+" ----------------------------------------------------------
 call plug#begin('~/.vim/plugged')
-" vimwiki
-Plug 'vimwiki/vimwiki'
+" Plug 'vimwiki/vimwiki'
 Plug 'hdima/python-syntax'
 Plug 'tpope/vim-markdown'
 Plug 'iamcco/markdown-preview.nvim'
 Plug 'scrooloose/nerdtree'
 Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'morhetz/gruvbox'
+" Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/syntastic'
@@ -44,12 +17,74 @@ Plug 'aperezdc/vim-template'
 " Plug 'tomasiser/vim-code-dark'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'puremourning/vimspector'
+Plug 'skywind3000/asyncrun.vim'
 call plug#end()
-" ====== markdown setting  =====
+
+
+
+
+
+" ----------------------------------------------------------
+" 						+vim
+" ----------------------------------------------------------
+set clipboard=unnamed
+set encoding=utf8
+set number
+set relativenumber
+set tabstop=4
+" setting shift+>
+set smartindent
+set shiftwidth=4
+set showcmd 
+set cursorline
+" setting backspace 
+set backspace=indent,eol,start
+"set system clipboard in vim
+"set clipboard=unnamedplus
+"set clipboard=unnamedplus
+syntax on
+set dictionary=/usr/share/dict/words
+let g:mapleader=" "
+
+" ====== basic map setting ===
+nnoremap <silent><c-e> :NERDTree<CR> 
+nnoremap <silent><CR> o<ESC>
+nnoremap > >>
+nnoremap < <<
+nnoremap <C-s> :wq<CR>
+nnoremap <C-q> :q<CR>
+
+
+
+" ----------------------------------------------------------
+" 						+markdown
+" ----------------------------------------------------------
+
 set nofoldenable
 
-" ====== airline setting  =====
-let g:airline_theme='simple'
+
+
+
+" ----------------------------------------------------------
+" 						+airline
+" ----------------------------------------------------------
+
+let g:airline_theme = 'simple'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '>'
+let g:airline#extensions#tabline#formatter = 'default'
+
+" function! WindowNumber(...)
+"     let builder = a:1
+"     let context = a:2
+"     call builder.add_section('airline_b', '%{tabpagewinnr(tabpagenr())}')
+"     return 0
+" endfunction
+" 
+" call airline#add_statusline_func('WindowNumber')
+" call airline#add_inactive_statusline_func('WindowNumber')
+
 
 " ====== syntastic setting  =====
 set statusline+=%#warningmsg#
@@ -61,22 +96,38 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-" ====== templates setting  =====
+
+
+" ----------------------------------------------------------
+" 						+template
+" ----------------------------------------------------------
+
 let g:templates_directory = '~/.vim/templates'
 
-" ====== color setting  =====
-"colorscheme codedark
-" ====== coc setting =====
+
+
+
+
+
+
+" ----------------------------------------------------------
+" 						+coc
+" ----------------------------------------------------------
 let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-html', 'coc-jedi']
 
 "
 " inoremap <expr> <TAB> coc#pum#visible() ? coc#pum#confirm() : "\<TAB>"
 "
 "=========== coc complete setting ===================
+
+
+
 function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+
 
 "------------------------------------------------
 " Use tab for trigger completion with characters ahead and navigate.
@@ -84,11 +135,15 @@ endfunction
 " no select by `"suggest.noselect": true` in your configuration file.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
+
+
 inoremap <silent><expr> <TAB>
       \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
+	  \ CheckBackspace() ? "\<Tab>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+
 
 " Make <CR> to accept selected completion item or notify coc.nvim to format
 " <C-g>u breaks current undo, please make your own choice.
@@ -146,3 +201,11 @@ omap ac <Plug>(coc-classobj-a)
 
 " ====== vimspector setting===
 let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-cpptools', 'CodeLLDB' ]
+
+
+
+" ----------------------------------------------------------
+" 						+asyncrun
+" ----------------------------------------------------------
+nnoremap <leader>r :AsyncRun g++ -O3 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" -lpthread && $(VIM_FILEDIR)/$(VIM_FILENOEXT)<CR> :copen<CR>
+
