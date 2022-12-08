@@ -1,26 +1,38 @@
 " ----------------------------------------------------------
-" 						+plugin
+"						+plugin
 " ----------------------------------------------------------
 call plug#begin('~/.vim/plugged')
-" Plug 'vimwiki/vimwiki'
-Plug 'hdima/python-syntax'
-Plug 'tpope/vim-markdown'
-Plug 'iamcco/markdown-preview.nvim'
+
+
+" vim function
+"
+Plug 'mhinz/vim-startify'
 Plug 'scrooloose/nerdtree'
-Plug 'octol/vim-cpp-enhanced-highlight'
-" Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'scrooloose/syntastic'
-Plug 'aperezdc/vim-template'
-" vim code dark theme
-" Plug 'tomasiser/vim-code-dark'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'puremourning/vimspector'
+Plug 'ryanoasis/vim-devicons'
 Plug 'skywind3000/asyncrun.vim'
+Plug 'aperezdc/vim-template'
+Plug 'jiangmiao/auto-pairs'
+Plug 'scrooloose/syntastic'
+
+" language enhance
+"
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'Yggdroot/indentLine'
+Plug 'rhysd/vim-clang-format'
+Plug 'preservim/tagbar'
 call plug#end()
 
 
+" Plug 'vimwiki/vimwiki'
+" Plug 'morhetz/gruvbox'
+" Plug 'tomasiser/vim-code-dark'
+"Plug 'puremourning/vimspector'
+"Plug 'hdima/python-syntax'
+"Plug 'tpope/vim-markdown'
+"Plug 'iamcco/markdown-preview.nvim'
 
 
 
@@ -32,11 +44,14 @@ set encoding=utf8
 set number
 set relativenumber
 set tabstop=4
+set expandtab
 " setting shift+>
 set smartindent
 set shiftwidth=4
 set showcmd 
+" set cursorcolumn
 set cursorline
+hi CursorLine cterm=NONE ctermbg=241 ctermfg=NONE guibg=NONE guifg=NONE
 " setting backspace 
 set backspace=indent,eol,start
 "set system clipboard in vim
@@ -44,16 +59,24 @@ set backspace=indent,eol,start
 "set clipboard=unnamedplus
 syntax on
 set dictionary=/usr/share/dict/words
+
+map <C-K> :ClangFormat
+imap <C-K> <c-o>:ClangFormat
+
+
+" ----------------------------------------------------------
+" 						+map
+" ----------------------------------------------------------
+"
 let g:mapleader=" "
 
-" ====== basic map setting ===
 nnoremap <silent><c-e> :NERDTree<CR> 
 nnoremap <silent><CR> o<ESC>
 nnoremap > >>
 nnoremap < <<
 nnoremap <C-s> :wq<CR>
 nnoremap <C-q> :q<CR>
-
+nnoremap <leader>w :w<CR>
 
 
 " ----------------------------------------------------------
@@ -68,12 +91,16 @@ set nofoldenable
 " ----------------------------------------------------------
 " 						+airline
 " ----------------------------------------------------------
-
+let g:airline_powerline_fonts = 1
 let g:airline_theme = 'simple'
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '>'
-let g:airline#extensions#tabline#formatter = 'default'
+" let g:airline#extensions#tabline#left_sep = ' '  "separater
+" let g:airline#extensions#tabline#left_alt_sep = ''  "separater
+" let g:airline#extensions#tabline#formatter = 'default'  "formater
+" let g:airline_left_sep = ''
+" let g:airline_left_alt_sep = '❯'
+" let g:airline_right_sep = ''
+" let g:airline_right_alt_sep = '❮'
 
 " function! WindowNumber(...)
 "     let builder = a:1
@@ -87,14 +114,14 @@ let g:airline#extensions#tabline#formatter = 'default'
 
 
 " ====== syntastic setting  =====
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+" 
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
 
 
 
@@ -209,3 +236,61 @@ let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-cpptools', 'CodeLLDB' ]
 " ----------------------------------------------------------
 nnoremap <leader>r :AsyncRun g++ -O3 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" -lpthread && $(VIM_FILEDIR)/$(VIM_FILENOEXT)<CR> :copen<CR>
 
+
+
+" ----------------------------------------------------------
+" 						+highlightcpp
+" ----------------------------------------------------------
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_highlight = 1
+let g:cpp_posix_standard = 1
+let g:cpp_experimental_simple_template_highlight = 1
+let g:cpp_experimental_template_highlight = 1
+let g:cpp_concepts_highlight = 1
+let g:cpp_no_function_highlight = 0
+
+
+
+" ----------------------------------------------------------
+" 						+clang-format
+" ----------------------------------------------------------
+let g:clang_format#style_options = {
+            \ "AccessModifierOffset" : -4,
+            \ "AllowShortIfStatementsOnASingleLine" : "true",
+            \ "AlwaysBreakTemplateDeclarations" : "true",
+            \ "TabWidth" : 4,
+            \ "IndentWidth" : 4,
+            \ "Standard" : "C++11"}
+" ----------------------------------------------------------
+" 						+indentLine
+" ----------------------------------------------------------
+" let g:indentLine_setColors = 0
+let g:indentLine_color_term = 239 
+let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+let g:indentLine_enabled=1
+let g:indent_guides_guide_size=1  " 指定对齐线的尺寸
+let g:indent_guides_start_level=2  " 从第二层开始可视化显示缩进
+let g:vim_json_conceal=0
+
+" ----------------------------------------------------------
+" 						+tagbar
+" ----------------------------------------------------------
+
+nmap <F2> :TagbarToggle<CR>
+
+" ----------------------------------------------------------
+" 						+autopairs
+" ----------------------------------------------------------
+
+let g:AutoPairs = {
+            \ '(':')', 
+            \ '[':']', 
+            \ '{':'}',
+            \ "'":"'",
+            \ '"':'"', 
+            \ "`":"`", 
+            \ '```':'```', 
+            \ '"""':'"""', 
+            \ "'''":"'''",
+            \ '**':'**'}
